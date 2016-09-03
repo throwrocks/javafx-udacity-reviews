@@ -31,6 +31,7 @@ public class Main extends Application {
     Group root;
     TextArea textFieldAPIKey;
     VBox verticalBoxAPIKey;
+    VBox verticalBoxCertifications;
 
     @Override
     public void start(Stage primaryStage) {
@@ -38,7 +39,7 @@ public class Main extends Application {
         textFieldAPIKey = new TextArea();
         textFieldAPIKey.setWrapText(true);
         textFieldAPIKey.setPrefColumnCount(10);
-        
+
         Button buttonAPIKey = new Button();
         // Set up the API button
         buttonAPIKey.setText("Submit");
@@ -55,7 +56,7 @@ public class Main extends Application {
         verticalBoxAPIKey.getChildren().add(buttonAPIKey);
         root.getChildren().add(verticalBoxAPIKey);
         // Create the initial scene
-        Scene scene = new Scene(root, 400, 300);
+        Scene scene = new Scene(root, 1200, 800);
         primaryStage.setTitle("Udacity Reviews");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -87,10 +88,16 @@ public class Main extends Application {
                 new PropertyValueFactory<>("project_price")
         );
         tableCertifications.setItems(data);
+        tableCertifications.setPrefWidth(400);
         tableCertifications.getColumns().addAll(columnProject, columnStatus, columnPrice);
-     
+
+        verticalBoxCertifications = new VBox();
+        verticalBoxCertifications.setPadding(new Insets(10, 50, 50, 50));
+        verticalBoxCertifications.setSpacing(10);
+        verticalBoxCertifications.prefWidth(400);
+        verticalBoxCertifications.getChildren().add(tableCertifications);
         root.getChildren().remove(verticalBoxAPIKey);
-        root.getChildren().add(tableCertifications);
+        root.getChildren().add(verticalBoxCertifications);
 
     }
 
