@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main">
+   <children>
+       <VBox layoutX="110.0" layoutY="81.0" style=".vbox" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0">
+          <children>
+              <Label text="Enter you API Key" textFill="#424242">
+               <font>
+                  <Font size="18.0" />
+               </font></Label> 
+              <TextArea fx:id="api_key" prefRowCount="3" wrapText="true">
+               <VBox.margin>
+                  <Insets top="16.0" />
+               </VBox.margin></TextArea>  
+              <Button fx:id="api_submit_button" prefHeight="43.0" prefWidth="209.0" text="Submit">
+               <VBox.margin>
+                  <Insets top="16.0" />
+               </VBox.margin></Button>
+          </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+         </padding>
+       </VBox>
+   </children>
+    <stylesheets>
+        <URL value="@fxml.css" />
+    </stylesheets>
+</AnchorPane>
