@@ -17,7 +17,7 @@
                         <TableColumn fx:id="column_project" editable="false" maxWidth="225.0" minWidth="-1.0" prefWidth="225.0" resizable="false" text="Project" />
                         <TableColumn fx:id="column_status" editable="false" maxWidth="125.0" minWidth="-1.0" prefWidth="125.0" text="Status" />
                         <TableColumn fx:id="column_price" editable="false" maxWidth="125.0" minWidth="-1.0" prefWidth="125.0" text="Price" />
-                        <TableColumn fx:id="column_select" editable="false" maxWidth="125.0" minWidth="-1.0" prefWidth="125.0" text="Request">
+                        <TableColumn fx:id="column_select" maxWidth="125.0" minWidth="-1.0" prefWidth="125.0" text="Request">
                   
                         </TableColumn>
                     </columns>

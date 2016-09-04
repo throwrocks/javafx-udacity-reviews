@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -60,5 +61,21 @@ public class Utilities {
             e.printStackTrace();
         }
         return date;
+    }
+    
+      public static void alert(String type, String title, String header, String content) {
+        Alert.AlertType alertType;
+        switch (type) {
+            case "error":
+                alertType = Alert.AlertType.ERROR;
+                break;
+            default:
+                alertType = Alert.AlertType.NONE;
+        }
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
     }
 }

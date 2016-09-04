@@ -1,9 +1,6 @@
 *.class
 
 # Package Files #
-*.jar
-*.war
-*.ear
 
 */bin
 *bin
@@ -11,7 +8,6 @@
 *bin
 
 /build
-/dist
 
 # Windows image file caches
 Thumbs.db

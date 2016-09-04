@@ -26,6 +26,7 @@ import data.API;
 import data.APIResponse;
 import data.JSONParser;
 import data.Certification;
+import util.Utilities;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -34,19 +35,22 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import java.util.ArrayList;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.application.Platform;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
+ * Main The application class Contains the start up method and handles user
+ * input
  *
- * @author josel
+ * @author Jose Lopez
  */
 public class Main extends Application {
 
@@ -83,10 +87,11 @@ public class Main extends Application {
         String responseText = apiResponse.getResponseText();
         // Evaluate response
         switch (responseCode) {
-            case 401: alert("warning", "Error " + responseCode, "Not Authorized", "Make sure your API Key is up to date.");
-            return;
+            case 401:
+                Utilities.alert("error", "Error " + responseCode, "Not Authorized", "Make sure your API Key is up to date.");
+                return;
         }
-        
+
         ArrayList<Certification> certifications = JSONParser.parseCertifications(responseText);
         System.out.println(responseText);
         System.out.println(certifications);
@@ -99,6 +104,7 @@ public class Main extends Application {
         TableColumn columnProject = (TableColumn) certificationsTable.getColumns().get(0);
         TableColumn columnStatus = (TableColumn) certificationsTable.getColumns().get(1);
         TableColumn columnPrice = (TableColumn) certificationsTable.getColumns().get(2);
+        TableColumn columnSelect = (TableColumn) certificationsTable.getColumns().get(3);
         columnProject.setCellValueFactory(
                 new PropertyValueFactory<>("project_name")
         );
@@ -108,6 +114,10 @@ public class Main extends Application {
         columnPrice.setCellValueFactory(
                 new PropertyValueFactory<>("project_price")
         );
+        columnSelect.setCellFactory(CheckBoxTableCell.forTableColumn(columnSelect));
+        
+
+        columnSelect.setEditable(true);
         certificationsTable.setItems(data);
         certificationsTable.setPrefWidth(400);
         //certificationsTable.getColumns().addAll(columnProject, columnStatus, columnPrice);
@@ -120,14 +130,6 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-
-    private void alert(String type, String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.show();
     }
 
 }

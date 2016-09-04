@@ -83,7 +83,6 @@ public class API {
             }
             apiResponse.setResponseText(buffer.toString());
         } catch (IOException v) {
-
             apiResponse.setResponseText(v.toString());
             return apiResponse;
 

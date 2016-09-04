@@ -181,4 +181,10 @@ public class Certification {
         return status;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+    
+    
+
 }
