@@ -1,10 +1,29 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2016 Jose Lopez.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 import data.API;
+import data.APIResponse;
 import data.JSONParser;
 import data.Certification;
 import javafx.application.Application;
@@ -17,12 +36,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
+import javafx.application.Platform;
 
 /**
  *
@@ -58,9 +78,17 @@ public class Main extends Application {
 
     private void loadCertifications() throws Exception {
         String APIKey = textFieldAPIKey.getText();
-        String results = API.getCertifications(APIKey);
-        ArrayList<Certification> certifications = JSONParser.parseCertifications(results);
-        System.out.println(results);
+        APIResponse apiResponse = API.getCertifications(APIKey);
+        int responseCode = apiResponse.getResponseCode();
+        String responseText = apiResponse.getResponseText();
+        // Evaluate response
+        switch (responseCode) {
+            case 401: alert("warning", "Error " + responseCode, "Not Authorized", "Make sure your API Key is up to date.");
+            return;
+        }
+        
+        ArrayList<Certification> certifications = JSONParser.parseCertifications(responseText);
+        System.out.println(responseText);
         System.out.println(certifications);
         ObservableList<Certification> data = FXCollections.observableArrayList(
                 certifications
@@ -92,6 +120,14 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void alert(String type, String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
     }
 
 }

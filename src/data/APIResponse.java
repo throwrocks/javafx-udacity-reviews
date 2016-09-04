@@ -21,44 +21,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package util;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+package data;
 
 /**
+ * APIResponse A class to manage the API response text and response codes
  *
- * @author josel
+ * @author Jose Lopez
  */
-public class Utilities {
+public final class APIResponse {
+
+    private String responseText;
+    private int responseCode;
+
+    APIResponse() {
+    }
 
     /**
-     * getStringAsDate
+     * setResponseCode
      *
-     * @param dateString a string in date format
-     * @param format the resulting date format
-     * @param timezone the time zone if null use UTC
-     * @return a new date in the specified format
+     * @param responseCode the API's response code number
      */
-    public static Date getStringAsDate(String dateString, String format, String timezone) {
-        if (dateString.equals("")) {
-            return null;
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.getDefault());
-        if (timezone == null) {
-            formatter.setTimeZone(TimeZone.getDefault());
-        } else {
-            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        }
-        Date date = new Date();
-        try {
-            date = formatter.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
     }
+
+    /**
+     * setResponseText
+     *
+     * @param responseText the API's response text
+     */
+    public void setResponseText(String responseText) {
+        this.responseText = responseText;
+    }
+
+    /**
+     * getResponseCode
+     *
+     * @return the API's response code number
+     */
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    /**
+     * getResponseText
+     *
+     * @return the API's response text
+     */
+    public String getResponseText() {
+        return responseText;
+    }
+
 }
