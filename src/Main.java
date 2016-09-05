@@ -35,16 +35,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import java.util.ArrayList;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.CheckBoxTableCell;
 
 /**
  * Main The application class Contains the start up method and handles user
@@ -53,13 +54,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Jose Lopez
  */
 public class Main extends Application {
-
+    
     AnchorPane anchorPaneMain;
     AnchorPane anchorPaneAPIKey;
     TextArea textFieldAPIKey;
     AnchorPane anchorPaneCertifications;
     VBox verticalBoxCertifications;
-
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         anchorPaneMain = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
@@ -79,7 +80,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    
+    @FXML
     private void loadCertifications() throws Exception {
         String APIKey = textFieldAPIKey.getText();
         APIResponse apiResponse = API.getCertifications(APIKey);
@@ -91,10 +93,11 @@ public class Main extends Application {
                 Utilities.alert("error", "Error " + responseCode, "Not Authorized", "Make sure your API Key is up to date.");
                 return;
         }
-
+        
         ArrayList<Certification> certifications = JSONParser.parseCertifications(responseText);
         System.out.println(responseText);
         System.out.println(certifications);
+        
         ObservableList<Certification> data = FXCollections.observableArrayList(
                 certifications
         );
@@ -114,9 +117,32 @@ public class Main extends Application {
         columnPrice.setCellValueFactory(
                 new PropertyValueFactory<>("project_price")
         );
-        columnSelect.setCellFactory(CheckBoxTableCell.forTableColumn(columnSelect));
         
-
+        columnSelect.setCellValueFactory(
+                new PropertyValueFactory<>("status")
+        );
+        //columnSelect.setCellFactory(CheckBoxTableCell.forTableColumn(columnSelect));
+        //columnSelect.setCellValueFactory(cellData -> cellData.getValue().getActive());
+        // Custom rendering of the table cell.
+        // Custom rendering of the table cell.
+        columnSelect.setCellFactory((Object column) -> new CheckBoxTableCell<Certification, String>() {
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setStyle("");
+                } else if (item.equals("certified")) {
+                    setDisabled(false);
+                    
+                    
+                }else{
+                    setVisible(false);
+                      
+                }
+            }
+        });
+        
         columnSelect.setEditable(true);
         certificationsTable.setItems(data);
         certificationsTable.setPrefWidth(400);
@@ -131,5 +157,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
 }
