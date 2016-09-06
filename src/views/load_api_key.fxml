@@ -22,7 +22,7 @@
                <VBox.margin>
                   <Insets top="16.0" />
                </VBox.margin></TextArea>  
-              <Button fx:id="api_submit_button" prefHeight="43.0" prefWidth="209.0" text="Submit">
+              <Button fx:id="api_submit_button" prefHeight="42.0" prefWidth="208.0" text="Submit">
                <VBox.margin>
                   <Insets top="16.0" />
                </VBox.margin></Button>

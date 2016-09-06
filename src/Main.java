@@ -28,24 +28,18 @@ import data.JSONParser;
 import data.Certification;
 import util.Utilities;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableCell;
 import javafx.scene.layout.AnchorPane;
-import javafx.fxml.FXML;
 import javafx.stage.Stage;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import java.util.ArrayList;
-import javafx.collections.FXCollections;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.event.ActionEvent;
 
 /**
  * Main The application class Contains the start up method and handles user
@@ -54,13 +48,13 @@ import javafx.scene.control.cell.CheckBoxTableCell;
  * @author Jose Lopez
  */
 public class Main extends Application {
-    
+
     AnchorPane anchorPaneMain;
     AnchorPane anchorPaneAPIKey;
     TextArea textFieldAPIKey;
     AnchorPane anchorPaneCertifications;
     VBox verticalBoxCertifications;
-    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         anchorPaneMain = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
@@ -80,8 +74,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
-    @FXML
+
     private void loadCertifications() throws Exception {
         String APIKey = textFieldAPIKey.getText();
         APIResponse apiResponse = API.getCertifications(APIKey);
@@ -93,62 +86,54 @@ public class Main extends Application {
                 Utilities.alert("error", "Error " + responseCode, "Not Authorized", "Make sure your API Key is up to date.");
                 return;
         }
-        
         ArrayList<Certification> certifications = JSONParser.parseCertifications(responseText);
         System.out.println(responseText);
         System.out.println(certifications);
-        
-        ObservableList<Certification> data = FXCollections.observableArrayList(
-                certifications
-        );
+
         anchorPaneCertifications = FXMLLoader.load(getClass().getResource("/views/certifications.fxml"));
-        verticalBoxCertifications = (VBox) anchorPaneCertifications.lookup("#vbox_certifications");
-        TableView certificationsTable = (TableView) anchorPaneCertifications.lookup("#table_certifications");
-        TableColumn columnProject = (TableColumn) certificationsTable.getColumns().get(0);
-        TableColumn columnStatus = (TableColumn) certificationsTable.getColumns().get(1);
-        TableColumn columnPrice = (TableColumn) certificationsTable.getColumns().get(2);
-        TableColumn columnSelect = (TableColumn) certificationsTable.getColumns().get(3);
-        columnProject.setCellValueFactory(
-                new PropertyValueFactory<>("project_name")
-        );
-        columnStatus.setCellValueFactory(
-                new PropertyValueFactory<>("status")
-        );
-        columnPrice.setCellValueFactory(
-                new PropertyValueFactory<>("project_price")
-        );
-        
-        columnSelect.setCellValueFactory(
-                new PropertyValueFactory<>("status")
-        );
-        //columnSelect.setCellFactory(CheckBoxTableCell.forTableColumn(columnSelect));
-        //columnSelect.setCellValueFactory(cellData -> cellData.getValue().getActive());
-        // Custom rendering of the table cell.
-        // Custom rendering of the table cell.
-        columnSelect.setCellFactory((Object column) -> new CheckBoxTableCell<Certification, String>() {
-            @Override
-            public void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setText(null);
-                    setStyle("");
-                } else if (item.equals("certified")) {
-                    setDisabled(false);
-                    
-                    
-                }else{
-                    setVisible(false);
-                      
-                }
+        VBox vBoxCertifications = (VBox) anchorPaneCertifications.lookup("#vbox_certifications");
+        int i = 0;
+        int count = certifications.size();
+        while (i < count) {
+            Certification certification = certifications.get(i);
+            if (certification.getStatus().equals("certified")) {
+                System.out.println(certifications.get(i).getProject_name());
+                HBox hb = new HBox();
+                CheckBox cb = new CheckBox();
+                cb.setSelected(true);
+                cb.setId(Integer.toString(certification.getProject_id()));
+                   System.out.println(cb.getId());
+                Label label = new Label(certification.getProject_name());
+                hb.getChildren().add(cb);
+                hb.getChildren().add(label);
+                vBoxCertifications.getChildren().add(hb);
             }
-        });
-        
-        columnSelect.setEditable(true);
-        certificationsTable.setItems(data);
-        certificationsTable.setPrefWidth(400);
-        //certificationsTable.getColumns().addAll(columnProject, columnStatus, columnPrice);
+            i++;
+        }
         anchorPaneMain.getChildren().remove(anchorPaneAPIKey);
         anchorPaneMain.getChildren().add(anchorPaneCertifications);
+        Button buttonCreateRequest = (Button) anchorPaneCertifications.lookup("#create_request_button");
+        buttonCreateRequest.setOnAction((ActionEvent event) -> {
+            try {
+                createRequest(certifications);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        });
+    }
+
+    public void createRequest(ArrayList<Certification> certifications) throws Exception {
+        int i = 0;
+        int count = certifications.size();
+        while (i < count) {
+            Certification certification = certifications.get(i);
+                if (certification.getStatus().equals("certified")) {
+            CheckBox cb = (CheckBox) anchorPaneCertifications.lookup("#" + certification.getProject_id());
+            System.out.println(cb.isSelected());
+                }
+            i++;
+        }
+
     }
 
     /**
@@ -157,5 +142,4 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
-<?import java.net.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main">
-    <children>
-        <VBox fx:id="vbox_certifications" layoutX="7.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0">
-            <children>
-                <TableView fx:id="table_certifications">
-                    <columns>
-                        <TableColumn fx:id="column_project" editable="false" maxWidth="225.0" minWidth="-1.0" prefWidth="225.0" resizable="false" text="Project" />
-                        <TableColumn fx:id="column_status" editable="false" maxWidth="125.0" minWidth="-1.0" prefWidth="125.0" text="Status" />
-                        <TableColumn fx:id="column_price" editable="false" maxWidth="125.0" minWidth="-1.0" prefWidth="125.0" text="Price" />
-                        <TableColumn fx:id="column_select" maxWidth="125.0" minWidth="-1.0" prefWidth="125.0" text="Request">
-                  
-                        </TableColumn>
-                    </columns>
-                </TableView>
-            </children>
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main">
+   <children>
+      <Button fx:id="create_request_button" layoutX="571.0" layoutY="337.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="208.0" text="Submit Request" AnchorPane.bottomAnchor="21.0" />
+      <Label layoutX="21.0" layoutY="21.0" prefHeight="27.0" prefWidth="444.0" text="Select Projects to Grade" textFill="#424242">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <VBox id="vbox_certifications" layoutX="21.0" layoutY="52.0" prefHeight="277.0" prefWidth="759.0" spacing="8.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="52.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <padding>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </padding>
-        </VBox>
-    </children>
-    <stylesheets>
-        <URL value="@fxml.css" />
-    </stylesheets>
+      </VBox>
+   </children>
 </AnchorPane>

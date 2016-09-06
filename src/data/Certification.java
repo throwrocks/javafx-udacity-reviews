@@ -26,9 +26,9 @@ package data;
 import java.util.Date;
 
 /**
- * Certification
- * A class to manage the Certification objects
- * Created from the Udacity API /me/certification results
+ * Certification A class to manage the Certification objects Created from the
+ * Udacity API /me/certification results
+ *
  * @author Jose Lopez
  */
 public class Certification {
@@ -59,6 +59,7 @@ public class Certification {
     int project_audit_project_id;
     Boolean project_nomination_eligible;
     String project_hashtag;
+    Boolean selected;
 
     public Certification() {
     }
@@ -169,6 +170,10 @@ public class Certification {
         this.waitlisted_at = waitlisted_at;
     }
 
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
+    }
+
     public String getProject_name() {
         return project_name;
     }
@@ -184,7 +189,16 @@ public class Certification {
     public Boolean getActive() {
         return active;
     }
-    
-    
 
+    public Boolean getSelected() {
+        if (this.selected == null && this.status.equals("certified")) {
+            this.setSelected(true);
+        }
+        return selected;
+    }
+
+    public int getProject_id() {
+        return project_id;
+    }
+  
 }
